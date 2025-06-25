@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Employee Form and Table</title>
+  <!-- Bootstrap CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
 <div class="container mt-4">
 
   <!-- Card with Form -->
@@ -10,39 +20,46 @@
         <div class="row mb-3">
           <div class="col-md-4">
             <label for="name" class="form-label">Name</label>
-            <input type="text" id="name" class="form-control" placeholder="Enter name">
+            <input type="text" formcontrolname="name" id="name" class="form-control" placeholder="Enter name" formControlName="name">
           </div>
           <div class="col-md-4">
             <label for="email" class="form-label">Email ID</label>
-            <input type="email" id="email" class="form-control" placeholder="Enter email">
+            <input type="email" formcontrolname="email" id="email" class="form-control" placeholder="Enter email" formControlName="email">
           </div>
           <div class="col-md-4">
             <label for="employeeId" class="form-label">Employee ID</label>
-            <input type="text" id="employeeId" class="form-control" placeholder="Enter ID">
+            <input type="text" formcontrolname="employeeId" id="employeeId" class="form-control" placeholder="Enter ID" formControlName="employeeId">
           </div>
         </div>
 
         <div class="row mb-3">
           <div class="col-md-4">
             <label for="city" class="form-label">City</label>
-            <input type="text" id="city" class="form-control" placeholder="Enter city">
+            <input type="text" formcontrolname="city" id="city" class="form-control" placeholder="Enter city" formControlName="city">
           </div>
           <div class="col-md-4">
             <label for="state" class="form-label">State</label>
-            <input type="text" id="state" class="form-control" placeholder="Enter state">
+            <input type="text" formcontrolName="state" id="state" class="form-control" placeholder="Enter state" formControlName="state">
           </div>
           <div class="col-md-4">
             <label for="contact" class="form-label">Contact No.</label>
-            <input type="text" id="contact" class="form-control" placeholder="Enter contact number">
+            <input type="text" formcontrolName="contactNo"  id="contact" class="form-control" placeholder="Enter contact number" formControlName="contact">
           </div>
         </div>
 
         <div class="mb-3">
           <label for="address" class="form-label">Address</label>
-          <textarea id="address" class="form-control" rows="2" placeholder="Enter address"></textarea>
+          <textarea id="address" formcontrolName="address" class="form-control" rows="2" placeholder="Enter address" formControlName="address"></textarea>
         </div>
+        <div class="row pt-2">
+            <div class="col-6 text-center">
+        <button type="submit"  class="btn btn-success" (click)="onsave()">Submit</button>
 
-        <button type="submit" class="btn btn-success">Submit</button>
+          </div>
+          <div class="col-6 text-center">
+            <button class="btn btn-success" (click)="onsave()">Save Employee</button>
+          </div>
+          </div>
       </form>
     </div>
   </div>
@@ -53,6 +70,7 @@
       <h5 class="mb-0">Employee Data</h5>
     </div>
     <div class="card-body">
+      <!-- The formGroup directive is now on the main form above -->
       <table class="table table-bordered table-striped">
         <thead class="table-secondary">
           <tr>
@@ -68,7 +86,7 @@
         <tbody>
           <tr>
             <td>Pratiksha</td>
-            <td>pratiksha@example.com</td>
+            <td>pratiksha&#64;example.com</td>
             <td>EMP001</td>
             <td>Pune</td>
             <td>Maharashtra</td>
@@ -81,3 +99,6 @@
   </div>
 
 </div>
+
+</body>
+</html>
