@@ -13,13 +13,27 @@ export class AppComponent {
   employeeeForm: FormGroup;
 
   employeeobj: EmployeeModel = new EmployeeModel();
+  employeeList:EmployeeModel[] = [];
 
   constructor() {
+    this.createForm();
+    debugger;
+    const oldData = localStorage.getItem('EmpData');
     this.employeeeForm = this.createForm();
+    if(oldData != null){
+      const parsdata = JSON.parse(oldData);
+      this.employeeList = parsdata;
+
+    }
+  }
+  reset(){
+    this.employeeeForm = new EmployeeModel();
+    this.createForm()
+
   }
 
   // ✅ Create the form group
-  createForm(): FormGroup {
+  createForm():  FormGroup {
     return new FormGroup({
       name: new FormControl(this.employeeobj.name),
       email: new FormControl(this.employeeobj.emailId),
@@ -32,26 +46,49 @@ export class AppComponent {
   }
 
   // ✅ Save data to localStorage
-  onsave(): void {
+  onsave(){
     debugger;
-    const oldData = localStorage.getItem('employeeData');
-    let employeeList = [];
+    const oldData = localStorage.getItem('EmpData');
 
     if (oldData !== null) {
-      employeeList = JSON.parse(oldData);
-    }
+      const parseData = JSON.parse(oldData);
+       // Optionally auto-increment employeeId
+    this. employeeeForm.controls['empid'].setValue(parseData.length + 1);
+    this.employeeList.unshift(this.employeeeForm.value);
+    } else {
+      this.employeeList.unshift(this.employeeeForm.value);
+        }
+localStorage.setItem('EmpData', JSON.stringify(this.employeeList));
+      }
+      this.reset()
+onEdit(item: EmployeeModel){
+  this.employeeobj= item;
+  this.createForm();
+}
+onupdate(){
+  const record = this. employeeList.find(m=>m.employeeId== this.employeeeForm.controls['empid'].value);
+  if (record != undefined){
+    record.address = this.employeeeForm.controls['address'].value;
+    record.address = this.employeeeForm.controls['address'].value;
+    record.address = this.employeeeForm.controls['address'].value;
+    record.address = this.employeeeForm.controls['address'].value;
+    record.address = this.employeeeForm.controls['address'].value;
+      this.reset()
 
-    // Optionally auto-increment employeeId
-    this.employeeeForm.controls['employeeId'].setValue(employeeList.length + 1);
 
-    // Add new data to the list
-    employeeList.push(this.employeeeForm.value);
-
-    // Save back to localStorage
-    localStorage.setItem('employeeData', JSON.stringify(employeeList));
-
-    // Reset the form
-    this.employeeeForm.reset();
-    alert("Employee added successfully!");
   }
+  localStorage.setItem('EmpData', JSON.stringify(this. employeeeForm));
+  this.employeeobj= new EmployeeModel();
+  this.createForm()
+}
+onDelete(id:number){
+  const isDelete = confirm("Are you sure you want to delete this");
+  if (isDelete) {
+    const index = this.employeeList.findIndex(m=>m.employeeId == id);
+  this.employeeList.splice(index,1);
+  localStorage.setItem("Empdata",JSON.stringify(this. employeeeForm));
+  
+
+  }
+}
 }
