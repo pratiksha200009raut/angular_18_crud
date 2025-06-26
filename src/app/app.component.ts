@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { RouterOutlet } from '@angular/router';
 import { EmployeeModel } from './model/Employee';
 
 @Component({
@@ -8,19 +7,20 @@ import { EmployeeModel } from './model/Employee';
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']  // ✅ Fix: styleUrl → styleUrls
 })
 export class AppComponent {
-  employeeeForm?: FormGroup;
+  employeeeForm: FormGroup;
 
-  employeeobj:EmployeeModel =new EmployeeModel();
-  constructor(){
-    this.createForm();
-    
+  employeeobj: EmployeeModel = new EmployeeModel();
+
+  constructor() {
+    this.employeeeForm = this.createForm();
   }
 
-  createForm(): void {
-    this.employeeeForm = new FormGroup({
+  // ✅ Create the form group
+  createForm(): FormGroup {
+    return new FormGroup({
       name: new FormControl(this.employeeobj.name),
       email: new FormControl(this.employeeobj.emailId),
       employeeId: new FormControl(this.employeeobj.employeeId),
@@ -30,18 +30,28 @@ export class AppComponent {
       address: new FormControl(this.employeeobj.address)
     });
   }
-  onsave() {
+
+  // ✅ Save data to localStorage
+  onsave(): void {
     debugger;
-    const oldData =localStorage.getItem('employeeData');
-    if(oldData !== null){
-      const parseData: any[] = JSON.parse(oldData);
-      this.employeeeForm?.controls['empid'].setValue(parseData.length +1);
-    }else{
-      // Store the first employee entry in localStorage as an array
-      localStorage.setItem('employeeData', JSON.stringify([this.employeeeForm?.value]));
-      
+    const oldData = localStorage.getItem('employeeData');
+    let employeeList = [];
+
+    if (oldData !== null) {
+      employeeList = JSON.parse(oldData);
     }
 
-    }
+    // Optionally auto-increment employeeId
+    this.employeeeForm.controls['employeeId'].setValue(employeeList.length + 1);
 
+    // Add new data to the list
+    employeeList.push(this.employeeeForm.value);
+
+    // Save back to localStorage
+    localStorage.setItem('employeeData', JSON.stringify(employeeList));
+
+    // Reset the form
+    this.employeeeForm.reset();
+    alert("Employee added successfully!");
   }
+}
